@@ -53,7 +53,11 @@ poetry shell
 Run the main simulation:
 
 ```bash
-poetry run python main.py
+poetry run python main.py --dim 1
+```
+or
+```bash
+poetry run python main.py --dim 2
 ```
 
 You can also explore:
