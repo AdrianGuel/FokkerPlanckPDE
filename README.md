@@ -1,5 +1,8 @@
 # Fokker-Planck PDE Solvers
 
+![
+](image.png)
+
 This project provides Python tools to solve and visualize the evolution of **Fokker-Planck equations** using **Finite Volume Methods** (FVM).  
 It supports both **1D** and **2D** Fokker-Planck problems, with Plotly-powered animations.
 
