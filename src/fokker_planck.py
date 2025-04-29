@@ -11,7 +11,8 @@ class FokkerPlanck1D:
         nx: int = 100,
         dt: float = 0.001,
         nt: int = 1000,
-        snapshot_every: int = 10
+        snapshot_every: int = 10,
+        bc_type: str = "reflecting"  # NEW: boundary condition type
     ) -> None:
         """
         Initialize the 1D Fokker-Planck solver using an explicit Finite Volume Method (FVM).
@@ -25,6 +26,7 @@ class FokkerPlanck1D:
             dt: Time step size
             nt: Number of time steps to simulate
             snapshot_every: Store solution every 'snapshot_every' time steps
+            bc_type: Type of boundary condition ('reflecting', 'absorbing', 'periodic')
         """
         self.A_func = A_func
         self.D_func = D_func
@@ -33,6 +35,7 @@ class FokkerPlanck1D:
         self.dt = dt
         self.nt = nt
         self.snapshot_every = snapshot_every
+        self.bc_type = bc_type
 
         self.snapshots: List[np.ndarray] = []
         self.times: List[float] = []
@@ -50,21 +53,36 @@ class FokkerPlanck1D:
         self.snapshots = [self.p.copy()]
         self.times = [0.0]
 
+    def apply_boundary_conditions(self) -> None:
+        """Apply the selected boundary condition to the probability density p."""
+        if self.bc_type == "reflecting":
+            self.p[0] = self.p[1]
+            self.p[-1] = self.p[-2]
+        elif self.bc_type == "absorbing":
+            self.p[0] = 0.0
+            self.p[-1] = 0.0
+        elif self.bc_type == "periodic":
+            self.p[0] = self.p[-2]
+            self.p[-1] = self.p[1]
+        else:
+            raise ValueError(f"Unknown boundary condition: {self.bc_type}")
+
     def step(self) -> None:
         """Advance one time step using explicit update of drift and diffusion fluxes."""
         A = self.A_func(self.x)
         D = self.D_func(self.x)
 
-        # Compute numerical flux terms
-        flux_drift = A * self.p  # Drift flux: A(x) * p
-        flux_diff = -np.gradient(D * self.p, self.dx)  # Diffusive flux: -d(Dp)/dx
+        flux_drift = A * self.p
+        flux_diff = -np.gradient(D * self.p, self.dx)
         flux_total = flux_drift + flux_diff
 
-        # Compute time derivative using divergence of total flux
         dpdt = -np.gradient(flux_total, self.dx)
         self.p += self.dt * dpdt
-        self.p = np.maximum(self.p, 0)  # Prevent non-physical negative values
-        self.p /= np.sum(self.p * self.dx)  # Re-normalize probability
+
+        self.apply_boundary_conditions()
+
+        self.p = np.maximum(self.p, 0)
+        self.p /= np.sum(self.p * self.dx)
 
     def solve(self) -> None:
         """Evolve the probability density in time and store snapshots."""

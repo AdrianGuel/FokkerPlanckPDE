@@ -99,6 +99,33 @@ poetry run python examples/basicFVM.py
 
 ---
 
+Of course! Here's a concise and professional **addition you can insert into your README** to describe the new flexible boundary condition feature for your 1D Fokker-Planck solver:
+
+---
+
+### 📌 New Feature: Flexible Boundary Conditions (1D Solver)
+
+The `FokkerPlanck1D` solver now supports flexible boundary conditions through a new `bc_type` option.  
+Users can specify how the probability density behaves at the domain boundaries:
+
+- **Reflecting** (`bc_type="reflecting"`): No probability flow across boundaries (default behavior).
+- **Absorbing** (`bc_type="absorbing"`): Probability density vanishes at boundaries, allowing mass loss.
+- **Periodic** (`bc_type="periodic"`): Domain wraps around, useful for cyclic or angular variables.
+
+Example usage:
+
+```python
+fp = FokkerPlanck1D(A, D, bc_type="periodic")
+```
+
+Boundary conditions are automatically applied at each time step.  
+This enhances flexibility for modeling a wider range of physical and stochastic processes.
+
+---
+
+Would you like a second, slightly **more formal** or **more compact** alternative as well?  
+(depends on your README tone: friendly vs academic vs corporate!) 🚀
+
 ## 📈 Example Outputs
 
 - Animated heatmap for \( p(x,y,t) \).
@@ -114,7 +141,7 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## 🛠 Future Work
 
-- Boundary condition flexibility.
+- Boundary condition flexibility for the 2D case.
 - Implicit solvers.
 - 3D extensions.
 

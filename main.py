@@ -11,7 +11,7 @@ def run_1d():
     A = lambda x: -0.2 * x**3
     D = lambda x: 0.5 + 0 * x
 
-    fp = FokkerPlanck1D(A, D, nt=1000, nx=100, snapshot_every=10)
+    fp = FokkerPlanck1D(A, D, nt=2000, nx=100, snapshot_every=10, bc_type="periodic")
     fp.initialize()
     fp.solve()
 
