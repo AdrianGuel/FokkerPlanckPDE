@@ -96,11 +96,6 @@ poetry run python examples/basicFVM.py
 - Interactive Plotly animations.
 - Supports saving results to HTML.
 - 1D and 2D capabilities.
-
----
-
-Of course! Here's a concise and professional **addition you can insert into your README** to describe the new flexible boundary condition feature for your 1D Fokker-Planck solver:
-
 ---
 
 ### 📌 New Feature: Flexible Boundary Conditions (1D Solver)
@@ -121,21 +116,10 @@ fp = FokkerPlanck1D(A, D, bc_type="periodic")
 Boundary conditions are automatically applied at each time step.  
 This enhances flexibility for modeling a wider range of physical and stochastic processes.
 
----
-
-Would you like a second, slightly **more formal** or **more compact** alternative as well?  
-(depends on your README tone: friendly vs academic vs corporate!) 🚀
-
 ## 📈 Example Outputs
 
 - Animated heatmap for \( p(x,y,t) \).
 - Marginal projections \( p(x,t) \) and \( p(y,t) \).
-
----
-
-## 📜 License
-
-This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
